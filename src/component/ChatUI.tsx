@@ -48,79 +48,7 @@ const ChatUI: React.FC = () => {
       content: `Uploaded: ${file.name}`
     });
   };
-  // const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = event.target.files?.[0];
-  //   if (!file) return;
-  //
-  //   const fileType = file.name.split('.').pop()?.toLowerCase();
-  //
-  //   if (fileType === 'txt' || fileType === 'md' || fileType === 'csv') {
-  //     const reader = new FileReader();
-  //     reader.onload = async (e) => {
-  //       const text = e.target?.result as string;
-  //       setFileContext({
-  //         name: file.name,
-  //         content: text
-  //       });
-  //     };
-  //     reader.readAsText(file);
-  //   } else if (fileType === 'pdf' || fileType === 'xlsx' || fileType === 'xls' || fileType === 'docx') {
-  //     setFileContext({
-  //       name: file.name,
-  //       content: `[${fileType.toUpperCase()} file content]`
-  //     });
-  //   }
-  // };
 
-  // const handleSend = async () => {
-  //     if (!input.trim()) return;
-  //     var userMessage: Message
-  //     if (fileContext) {
-  //       userMessage = {
-  //         role: 'user',
-  //         content: input.trim()
-  //             ? `File: ${fileContext.name}\n\nContent:\n${fileContext.content}\n\nQuestion: ${input}`
-  //             : `File: ${fileContext.name}\n\nContent:\n${fileContext.content}`
-  //       };
-  //     } else {
-  //       userMessage = {
-  //         role: 'user',
-  //         content: input
-  //       };
-  //     }
-  //
-  //     const updatedMessages = [...messages, userMessage];
-  //     setMessages(updatedMessages);
-  //     setInput('');
-  //     setFileContext(null); // Clear file context after sending
-  //     setIsStreaming(true);
-  //     currentMessageContent.current = '';
-  //
-  //     try {
-  //       // Add an empty system message that will be updated with streaming content
-  //       const systemMessage: Message = {
-  //         role: 'system',
-  //         content: ''
-  //       };
-  //       setMessages(prev => [...prev, systemMessage]);
-  //
-  //       await sendChatMessage(updatedMessages, (chunk: string) => {
-  //         currentMessageContent.current += chunk;
-  //         setMessages(prevMessages => {
-  //           const newMessages = [...prevMessages];
-  //           newMessages[newMessages.length - 1] = {
-  //             ...newMessages[newMessages.length - 1],
-  //             content: currentMessageContent.current
-  //           };
-  //           return newMessages;
-  //         });
-  //       }, selectedModel);
-  //     } catch (error) {
-  //       console.error('Error:', error);
-  //     } finally {
-  //       setIsStreaming(false);
-  //     }
-  // };
   const handleSend = async () => {
     if (!input.trim() && uploadedFiles.length === 0) return;
 
@@ -298,7 +226,15 @@ const ChatUI: React.FC = () => {
                     {msg.role === 'user' ? (
                         <PersonIcon sx={{ color: '#555' }} />
                     ) : (
-                        <SupportAgentIcon sx={{ color: '#555' }} />
+                        // <SupportAgentIcon sx={{ color: '#555' }} />
+
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <SupportAgentIcon sx={{ color: '#555' }} />
+                          {isStreaming && msg.content.length === 0 && (
+                              // <CircularProgress size={20} sx={{ ml: 1 }} />
+                              <div> Thinking....</div>
+                          )}
+                        </Box>
                     )}
                   </ListItemIcon>
                   <Box sx={{ flex: 1, marginLeft: 1 }}>

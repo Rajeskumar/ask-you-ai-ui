@@ -24,6 +24,6 @@ export interface ChatSession {
     timestamp: Date;
 }
 
-export type ModelType = "llama3.2" | "gpt-4o-mini" | "gpt-4o";
+export type ModelType = "llama3.2" | "gpt-4o-mini" | "gpt-4o" | "deepseek-r1:7b";
 
-export const AVAILABLE_MODELS: ModelType[] = ["llama3.2", "gpt-4o-mini", "gpt-4o"];
+export const AVAILABLE_MODELS: ModelType[] = ["llama3.2", "gpt-4o-mini", "gpt-4o", "deepseek-r1:7b"];
